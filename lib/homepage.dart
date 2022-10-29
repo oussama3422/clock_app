@@ -6,6 +6,7 @@ import 'package:clock_app/info.dart';
 import 'package:clock_app/view/alarm_page.dart';
 import 'package:clock_app/view/clock_page.dart';
 import 'package:clock_app/view/timeup_page.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -49,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child:ListView(
                     children: [
                       Column(
-                            children: clock.map((alarme){
+                            children: clock.map<Widget>((alarme){
                               return Container(
                                 margin: const EdgeInsets.only(bottom: 15),
                                 padding: const EdgeInsets.all(10),
@@ -98,14 +99,35 @@ class _MyHomePageState extends State<MyHomePage> {
                               );
                             }).followedBy(
                               [
-                                 Container(
-                                  margin: const EdgeInsets.all(8),
-                                  padding: const EdgeInsets.all(8),
-                                  child: Column(
-                                    children:[
-                                      Image.asset(''),
-                                    ]
-                                  ),
+                                 DottedBorder(
+                                  color: Colors.blueGrey,
+                                  radius: const Radius.circular(12),
+                                  borderType: BorderType.RRect,
+                                    child: Container(
+                                    width: double.infinity,
+                                    // margin: const EdgeInsets.symmetric(vertical: 16,horizontal: 32),
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: TextButton(
+                                      onPressed: (){},
+                                      child: Column(
+                                        children:[
+                                          const SizedBox(height: 10),
+                                          Image.asset('assets/add_clock.png',scale: 4,height: 60,),
+                                          const Text(
+                                            'add alaram',
+                                            style: TextStyle(
+                                              color: Color.fromARGB(255, 53, 48, 54),
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w900,
+                                            ),
+                                            )
+                                        ]
+                                      ),
+                                    ),
+                                   ),
                                  )
                               ]
                             ).toList(),
