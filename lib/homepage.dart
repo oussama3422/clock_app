@@ -4,6 +4,9 @@ import 'package:clock_app/view/alarm_page.dart';
 import 'package:clock_app/view/timeup_page.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:intl/intl.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 import 'data.dart';
 
@@ -16,8 +19,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+                                
+
   @override
   Widget build(BuildContext context) {
+      var now=DateTime.now().subtract(const Duration(hours: 1));
+      var formatedTime=DateFormat('HH:mm').format(now); 
+      var dateselcted; 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 60, 63, 65),
@@ -41,6 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     children: [
                       Column(
                             children: clock.map<Widget>((alarme){
+                              var formatedTime=DateFormat('HH:mm').format(alarme.clockDateTime!);                              
                               return Container(
                                 margin: const EdgeInsets.only(bottom: 15),
                                 padding: const EdgeInsets.all(10),
@@ -79,9 +88,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                   const Text('Monday',style: TextStyle(color: Colors.grey,fontSize: 12,fontWeight: FontWeight.bold),),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children:const [
-                                       Text('21;08',style: TextStyle(color: Colors.grey,fontSize: 20,fontWeight: FontWeight.bold),),
-                                       Icon(Icons.keyboard_arrow_down),
+                                    children: [
+                                       Text(formatedTime,style:const TextStyle(color: Colors.grey,fontSize: 20,fontWeight: FontWeight.bold),),
+                                       const Icon(Icons.keyboard_arrow_down),
                                     ],
                                   ),
                                  ],
@@ -101,7 +110,97 @@ class _MyHomePageState extends State<MyHomePage> {
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                     child: TextButton(
-                                      onPressed: (){},
+                                      onPressed: ()=>showMaterialModalBottomSheet(
+                                        context: context,
+                                        builder: (context) =>Container(
+                                          height: 300,
+                                          decoration:const BoxDecoration(
+                                            color: Color.fromARGB(255, 57, 59, 57),
+                                            boxShadow: [
+                                              BoxShadow(blurRadius: 8,offset: Offset(4,4),spreadRadius: 1.0)
+                                            ]
+                                          ),
+                                          child: Column(
+                                            children: [
+                                            const SizedBox(height: 10),
+                                              TextButton(
+                                              onPressed: () {
+                                              DatePicker.showDatePicker(context,
+                                                  showTitleActions: true,
+                                                  minTime: DateTime.now(),
+                                                  maxTime: DateTime.now().add(const Duration(days:6000)),
+                                                  onChanged: (date) {
+                                                   dateselcted=date;
+                                                  },
+                                               currentTime: DateTime.now(), locale: LocaleType.en);
+                                             },
+                                          child: Text(
+                                                '${date}',
+                                                style: TextStyle(color: Colors.blue),
+                                              )),
+                                              const ListTile(
+                                                leading: Text(
+                                                  'Repeat',
+                                                  style: TextStyle(
+                                                    color:Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 20,
+                                                  ),
+                                                  ),
+                                                trailing: Icon(Icons.arrow_drop_down_circle_outlined,color: Colors.white,size: 40,),
+                                              ),
+                                             const Divider(
+                                                color: Colors.purple,
+                                                thickness: 3.0,
+                                              ),
+                                              const ListTile(
+                                                leading: Text(
+                                                  'Sound',
+                                                  style: TextStyle(
+                                                    color:Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 20,
+                                                  ),
+                                                  ),
+                                                trailing: Icon(Icons.arrow_drop_down_circle_outlined,color: Colors.white,size: 40,),
+                                              ),
+                                              const Divider(
+                                                color: Colors.purple,
+                                                thickness: 3.0,
+                                              ),
+                                              const ListTile(
+                                                leading: Text(
+                                                  'Title',
+                                                  style: TextStyle(
+                                                    color:Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 20,
+                                                  ),
+                                                  ),
+                                                trailing: Icon(Icons.arrow_drop_down_circle_outlined,color: Colors.white,size: 40,),
+                                              ),
+                                              TextButton(
+                                                style: ButtonStyle(
+                                                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                                    RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(18.0),
+                                                      side: const BorderSide(color: Colors.red)
+                                                    ),
+                                                   ),
+                                                  textStyle: MaterialStateProperty.all(const TextStyle(color:Colors.white,fontWeight:FontWeight.bold,fontSize: 16)),
+                                                  backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 53, 50, 54)),
+                                                  fixedSize: MaterialStateProperty.all(const Size(400, 50))
+                                                  )
+                                                ,
+                                                onPressed: (){
+
+                                                },
+                                                child: const Text('Save'),
+                                                )
+                                            ],
+                                          ),
+                                        ) 
+                                        ),
                                       child: Column(
                                         children:[
                                           const SizedBox(height: 10),
