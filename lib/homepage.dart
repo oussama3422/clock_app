@@ -1,14 +1,9 @@
-import 'dart:html';
-
-import 'package:clock_app/clock_view.dart';
 import 'package:clock_app/enum.dart';
 import 'package:clock_app/info.dart';
 import 'package:clock_app/view/alarm_page.dart';
-import 'package:clock_app/view/clock_page.dart';
 import 'package:clock_app/view/timeup_page.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'data.dart';
 
@@ -16,27 +11,22 @@ import 'data.dart';
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
 
-
-
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  
-  
-
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Clock App',style: TextStyle(color:Colors.black45,fontWeight: FontWeight.bold,fontSize: 30),),centerTitle: true,
+        backgroundColor: const Color.fromARGB(255, 60, 63, 65),
+        title: const Text('Clock App',style: TextStyle(color:Colors.white,fontWeight: FontWeight.bold),),centerTitle: true,
       ),
       body:Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children:listinfo.map((currentMenuInfo) => alarmTouch(currentMenuInfo)).toList()
           ),
           const VerticalDivider(color: Colors.amberAccent,width: 2),
@@ -58,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 borderRadius: BorderRadius.circular(13),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Color.fromARGB(255, 54, 244, 168).withOpacity(0.4),
+                                    color: const Color.fromARGB(255, 54, 244, 168).withOpacity(0.4),
                                     blurRadius: 8,
                                     spreadRadius: 2,
                                     offset: const Offset(5, 5)
