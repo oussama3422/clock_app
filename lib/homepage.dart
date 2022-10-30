@@ -1,5 +1,7 @@
+import 'package:clock_app/alarm_helper.dart';
 import 'package:clock_app/enum.dart';
 import 'package:clock_app/info.dart';
+import 'package:clock_app/model/alarm_info.dart';
 import 'package:clock_app/view/alarm_page.dart';
 import 'package:clock_app/view/timeup_page.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -20,16 +22,21 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
+  DateTime? alarmeTime;
+  String? alarmTimeString;
+  AlarmHelper alarmhelper=AlarmHelper();
   @override
   void initState() {
-      var now=DateTime.now().subtract(const Duration(hours: 1));
-      var formatedTime=DateFormat('HH:mm').format(now); 
-      var dateselcted=formatedTime;       
+      alarmeTime=DateTime.now();
+      alarmhelper.initializeDatabase().then(((value) {
+        print('----------------------Intialisation------------------Successfully-------------------');
+      }));
       super.initState();
   }
 
-                  
+    var repeat=[1,2,3,4];
+    var sound='muslim';
+    var title='Alrame 1';        
 
   @override
   Widget build(BuildContext context) {
@@ -134,19 +141,19 @@ class _MyHomePageState extends State<MyHomePage> {
                                             children: [
                                             const SizedBox(height: 10),
                                               TextButton(
-                                              onPressed: () {
-                                             showIntervalTimePicker(
-                                                  context: context,
-                                                  initialTime: TimeOfDay.fromDateTime(DateTime.now()),
-                                                  interval: 5,
-                                                  visibleStep: VisibleStep.fifths,
-                                                  onEntryModeChanged: ((newVal) {
-                                                    setState(() {
-                                                      dateselcted=newVal.toString();
-                                                    });
-                                                  }
-                                                    )
+                                              onPressed: () async{
+                                             var selectedTime=await showTimePicker(
+                                              context: context,
+                                              initialTime: TimeOfDay.now(),
                                              );
+                                             if(selectedTime==null){
+                                              final now=DateTime.now();
+                                              var selectedDateTime=DateTime(now.year,now.month,now.day,selectedTime!.hour,selectedTime.minute);
+                                              alarmeTime=selectedDateTime;
+                                              setState(() {
+                                                alarmTimeString=selectedTime.toString();
+                                              });
+                                             }
                                              },
                                           child: Text(
                                                 dateselcted,
@@ -161,9 +168,33 @@ class _MyHomePageState extends State<MyHomePage> {
                                                     fontSize: 20,
                                                   ),
                                                   ),
-                                                trailing: IconButton(
-                                                  icon:const Icon(Icons.arrow_drop_down_circle_outlined,color: Colors.white,size: 40),
-                                                  onPressed: (){},
+                                                trailing: FloatingActionButton.extended(
+                                                  label:const Icon(Icons.arrow_drop_down_circle_outlined,color: Colors.white,size: 40),
+                                                  onPressed: (){
+                                                    showMaterialModalBottomSheet(context: context, builder: (context)
+                                                            =>
+                                                             Column(
+                                                                children: [
+                                                                  Padding(
+                                                                    padding:  const EdgeInsets.all(30.0),
+                                                                    child:  TextFormField(
+                                                                      decoration: InputDecoration(
+                                                                        border:OutlineInputBorder(borderRadius:  BorderRadius.circular(10)),
+                                                                        enabledBorder:OutlineInputBorder(borderRadius:  BorderRadius.circular(10),borderSide:const BorderSide(color: Colors.grey,width:2,)),
+                                                                        label: const Text('Enter Name'),
+                                                                        icon: const Icon(Icons.label_important)
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ElevatedButton(
+                                                                  onPressed: (){
+                                                                    Navigator.of(context).pop();
+                                                                  },
+                                                                  child: const Text('Save'))
+                                                                ],
+                                                              ) 
+                                                            );
+                                                  },
                                                 ),
                                               ),
                                              const Divider(
@@ -183,12 +214,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                                   icon:const Icon(Icons.arrow_drop_down_circle_outlined,color: Colors.white,size: 40),
                                                   onPressed: (){
                                                             showMaterialModalBottomSheet(context: context, builder: (context)
-                                                            =>Container(
-                                                              width: 60,
-                                                              height: 120,
-                                                              margin: const EdgeInsets.all(8),
-                                                              padding: const EdgeInsets.all(8),
-                                                              child:Column(
+                                                            =>
+                                                             Column(
                                                                 children: [
                                                                   const Padding(
                                                                     padding:  EdgeInsets.all(30.0),
@@ -199,10 +226,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                                                       ),
                                                                     ),
                                                                   ),
-                                                                TextButton(onPressed: (){}, child: const Text('Save'))
+                                                                TextButton(
+                                                                  onPressed: (){
+
+                                                                    Navigator.of(context).pop();
+                                                                  },
+                                                                  child: const Text('Save'))
                                                                 ],
                                                               ) 
-                                                            )
                                                             );
                                                   }, 
                                                   ),
@@ -222,26 +253,53 @@ class _MyHomePageState extends State<MyHomePage> {
                                                   ),
                                                 trailing: IconButton(
                                                   icon:const Icon(Icons.arrow_drop_down_circle_outlined,color: Colors.white,size: 40),
-                                                  onPressed: (){},
+                                                  onPressed: (){
+                                                    showMaterialModalBottomSheet(context: context, builder: (context)
+                                                            =>
+                                                             Column(
+                                                                children: [
+                                                                  const Padding(
+                                                                    padding:  EdgeInsets.all(30.0),
+                                                                    child:  TextField(
+                                                                      decoration: InputDecoration(
+                                                                        label: Text('Enter Name'),
+                                                                        icon: Icon(Icons.label_important)
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                TextButton(
+                                                                  onPressed: (){
+                                                                    
+                                                                    Navigator.of(context).pop();
+                                                                  },
+                                                                  child: const Text('Save'))
+                                                                ],
+                                                              ) 
+                                                            );
+                                                  },
                                                   ),
                                               ),
-                                              TextButton(
-                                                style: ButtonStyle(
-                                                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                                    RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.circular(18.0),
-                                                      side: const BorderSide(color: Colors.red)
-                                                    ),
-                                                   ),
-                                                  textStyle: MaterialStateProperty.all(const TextStyle(color:Colors.white,fontWeight:FontWeight.bold,fontSize: 16)),
-                                                  backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 53, 50, 54)),
-                                                  fixedSize: MaterialStateProperty.all(const Size(400, 50))
-                                                  )
-                                                ,
+                                              FloatingActionButton.extended(
                                                 onPressed: (){
-
+                                                  DateTime scheduleAlramDateTime;
+                                                  if(alarmeTime!.isAfter(DateTime.now())){
+                                                    scheduleAlramDateTime=alarmeTime!;
+                                                  }
+                                                  scheduleAlramDateTime=alarmeTime!.add(const Duration(days: 1));
+                                                  var alarmInfo=AlarmInfo(
+                                                    id: 1,
+                                                    title: title,
+                                                    alarmDateTime: scheduleAlramDateTime.toString(),
+                                                    isPending: true,
+                                                    gradientColorIndex: clock.length
+                                                    );
                                                 },
-                                                child: const Text('Save'),
+                                                label: Row(
+                                                  children:const [
+                                                    Icon(Icons.alarm),
+                                                    Text('Save')
+                                                  ],
+                                                ),
                                                 )
                                             ],
                                           ),

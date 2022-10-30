@@ -10,10 +10,5 @@ Info(typeclock:Typeclock.alarme,imageSrc: 'assets/alarm-clock.png',title:'Alarme
 Info(typeclock:Typeclock.timeUp,imageSrc: 'assets/hourglass.png',title:'TimesUp')
 ];
 List<ClockInfo> clock=[
-  ClockInfo(DateTime.now().subtract(const Duration(hours: 1)),description: 'Office',gradientColor: GradientColor.sky),
-  ClockInfo(DateTime.now().subtract(const Duration(hours: 1)),description: 'Remote',gradientColor: GradientColor.sunset),
-  ClockInfo(DateTime.now().subtract(const Duration(hours: 1)),description: 'Hybird',gradientColor: GradientColor.sea),
-  ClockInfo(DateTime.now().subtract(const Duration(hours: 1)),description: 'Office',gradientColor: GradientColor.sky),
-  ClockInfo(DateTime.now().subtract(const Duration(hours: 1)),description: 'Remote',gradientColor: GradientColor.sunset),
-  ClockInfo(DateTime.now().subtract(const Duration(hours: 1)),description: 'Hybird',gradientColor: GradientColor.sea),
+  
 ];
