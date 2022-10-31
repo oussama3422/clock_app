@@ -1,6 +1,6 @@
 import 'package:clock_app/constant/theme_data.dart';
 import 'package:clock_app/enum.dart';
-import 'package:clock_app/view/clock_info.dart';
+import 'package:clock_app/model/clock_info.dart';
 import 'package:flutter/widgets.dart';
 import 'info.dart';
 
