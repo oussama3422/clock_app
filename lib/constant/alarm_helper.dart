@@ -1,4 +1,4 @@
-import 'package:clock_app/info.dart';
+import 'package:clock_app/controller/info.dart';
 import 'package:clock_app/model/alarm_info.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:sqflite/sqflite.dart';
@@ -53,7 +53,7 @@ class AlarmHelper{
 
   insertAlarm(AlarmInfo alarmInfo)async{
     var db= await connectdatabase;
-    var result=db.insert(tableName, alarmInfo.toMap());
-    print(result);
+    var result=await db.insert(tableName, alarmInfo.toMap());
+    print("::::::::::::::::::$result:::::::::::::::::::");
   }
 }

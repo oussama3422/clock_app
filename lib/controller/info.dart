@@ -1,5 +1,5 @@
 
-import 'package:clock_app/enum.dart';
+import 'package:clock_app/constant/enum.dart';
 import 'package:flutter/foundation.dart';
 
 class Info extends ChangeNotifier{

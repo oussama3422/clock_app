@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../clock_view.dart';
+import 'clock_view.dart';
 class AlarmPage extends StatefulWidget {
   const AlarmPage({super.key});
 

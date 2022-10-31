@@ -1,9 +1,9 @@
-import 'package:clock_app/enum.dart';
-import 'package:clock_app/info.dart';
+import 'package:clock_app/constant/enum.dart';
+import 'package:clock_app/controller/info.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
-import 'homepage.dart';
+import 'view/homepage.dart';
 
 FlutterLocalNotificationsPlugin flutterlocalNotificationPlugin=FlutterLocalNotificationsPlugin();
 void main() {
